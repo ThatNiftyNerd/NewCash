@@ -105,7 +105,7 @@ public class CountryListActivity extends AppCompatActivity {
             R.mipmap.zambia, R.mipmap.zimbabwe
 
     };
-    String[] currency = new String[]{
+    String[] currencyISO = new String[]{
             "AED","AFN","ALL","AMD","ANG","AOA","ARS","AUD","AWG","AZN","BAM","BBD","BDT","BGN",
             "BHD","BIF","BMD","BND","BOB","BRL","BSD","BTC","BTN","BWP","BYN","BZD","CAD","CDF",
             "CDF","CHF","CLP","CLF","CNY","COP","CRC","CUC","CUP","CVE","CZK","DJF","DKK","DOP",
@@ -156,7 +156,7 @@ public class CountryListActivity extends AppCompatActivity {
             CurrencyModel country = new CurrencyModel();
             country.setmCountryName(currencyNames[i]);
             country.setFlag(flagId[i]);
-            country.setmCurrencyiso(currency[i]);
+            country.setmCurrencyiso(currencyISO[i]);
             mCountryList.add(country);
 
             for(CurrencyModel model : mCountryList){
