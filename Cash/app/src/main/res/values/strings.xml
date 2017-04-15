@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Cash</string>
+    <string name="info_chose">Choose Currency</string>
+    <string name="CALCULATE">Calculate</string>
+</resources>
