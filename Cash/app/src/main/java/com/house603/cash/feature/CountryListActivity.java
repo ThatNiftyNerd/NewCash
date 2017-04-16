@@ -5,6 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.house603.cash.R;
 import com.house603.cash.feature.adapter.CountryListAdapter;
@@ -119,6 +122,7 @@ public class CountryListActivity extends AppCompatActivity {
             "TND","TOP","TRY","TTD","TWD","TZS","UAH","UGX","USD","UYU","UZS","VEF","VND","VUV",
             "WST","XAF","XCD","XOF","XPF","YER","ZAR","ZMW","ZWL"
     };
+    private EditText mSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +136,28 @@ public class CountryListActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.rec_country);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mSearch = (EditText) findViewById(R.id.ed_search);
+        mSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                FilterCountryList(mAdapter, String.valueOf(s));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // mAdapter.getFilter().filter(s.toString());
+
+            }
+        });
+
+
     }
+
 
     private void initModel() {
         Intent intent = getIntent();
@@ -191,6 +216,23 @@ public class CountryListActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    public List<CurrencyModel> filter(List<CurrencyModel> models, String query) {
+        query = query.toLowerCase();
+
+        final List<CurrencyModel> filteredModelList = new ArrayList<>();
+        for (CurrencyModel model : models) {
+            final String text = model.getmCountryName().toLowerCase();
+            if (text.contains(query)) {
+                filteredModelList.add(model);
+            }
+        }
+        return filteredModelList;
+    }
+    public void FilterCountryList(CountryListAdapter mAdapter, String s) {
+        final List<CurrencyModel> filteredModelList = filter(mCountryList, s);
+        mAdapter.setFilter(filteredModelList);
     }
 
     public void setCurrencyModel(CurrencyModel model) {

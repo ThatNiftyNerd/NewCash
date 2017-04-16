@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.house603.cash.R;
 import com.house603.cash.feature.model.CurrencyModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     private List<CurrencyModel> mCurrencyModelList;
     private Context mContext;
     CountryListAdapterListener mClickListener;
+    private List<CurrencyModel> mCurencyListModels;
 
     public CountryListAdapter(Context context, List<CurrencyModel> mContactModelList, CountryListAdapterListener listener){
         this.mCurrencyModelList = mContactModelList;
@@ -50,6 +52,12 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
             }
         });
 
+    }
+
+    public void setFilter(List<CurrencyModel> mCurrencylist){
+        mCurencyListModels = new ArrayList<>();
+        mCurencyListModels.addAll(mCurrencylist);
+        notifyDataSetChanged();
     }
 
     @Override

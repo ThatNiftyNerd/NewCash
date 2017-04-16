@@ -1,5 +1,14 @@
 <resources>
-    <string name="app_name">Cash</string>
+    <string name="app_name">Cashew</string>
     <string name="info_chose">Choose Currency</string>
     <string name="CALCULATE">Calculate</string>
+    <string name="selct_country">Select Country</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+
+    <string-array name="langue_list">
+        <item>English</item>
+        <item>French</item>
+        <item>Vietnamese</item>
+    </string-array>
 </resources>

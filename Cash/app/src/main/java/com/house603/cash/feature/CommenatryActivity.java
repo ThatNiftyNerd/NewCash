@@ -1,5 +1,6 @@
 package com.house603.cash.feature;
 
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,10 +19,14 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 
 import static java.security.AccessController.getContext;
 
@@ -39,6 +44,12 @@ public class CommenatryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commenatry);
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         initView();
         initModel();
     }
@@ -51,7 +62,12 @@ public class CommenatryActivity extends AppCompatActivity {
     private void initModel() {
         loadCommentaryExchangeData();
     }
-
+    private void YahooTest() throws IOException {
+        String[] symbols = new String[]{"INTC", "BABA", "TSLA", "AIR.PA", "YHOO"};
+        Map<String, Stock> stocks = YahooFinance.get(symbols); // single request
+        Stock intel = stocks.get("INTC");
+        Stock airbus = stocks.get("AIR.PA");
+    }
     public void loadCommentaryExchangeData() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL1, new AsyncHttpResponseHandler() {
