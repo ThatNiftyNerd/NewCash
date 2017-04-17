@@ -134,6 +134,10 @@ public class MainActivity extends AppCompatActivity {
         mEdCountryUp = (EditText) findViewById(R.id.edt_country_up);
         mEdCountryDown = (EditText) findViewById(R.id.edt_country_down);
         mCalculate = (Button) findViewById(R.id.btn_cal);
+        mCountryNameUp.setText("NGN");
+        mCountryNameDown.setText("USD");
+        mFlagCountryUp.setImageResource(R.mipmap.nigeria);
+        mFlagCountryDown.setImageResource(R.mipmap.united_states);
         mCountryUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,7 +286,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
+        // check if data is null, if it is do nothing
+        if(data == null) return;
+        // check if the request code is same as what is passed here it is 2
         if (requestCode == 2) {
           //  country = data.getStringExtra("name");
             flag = data.getIntExtra("map", 1);
