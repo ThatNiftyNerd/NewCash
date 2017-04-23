@@ -92,9 +92,15 @@ public class MainActivity extends AppCompatActivity {
             mAdapter = new MenuAdapter(getApplicationContext(), mMenuItemList, new MenuAdapterListener() {
                 @Override
                 public void ItemClick(int p) {
-                    if (p == 0) {
-                        Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
-                        startActivity(mIntent);
+                    switch (p){
+                        case 0:
+                            Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
+                            startActivity(mIntent);
+                            break;
+                        case 1:
+                            Intent ntent = new Intent(getApplicationContext(), CommodityActivity.class);
+                            startActivity(ntent);
+                            break;
                     }
 
                 }

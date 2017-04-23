@@ -9,6 +9,29 @@ import java.io.Serializable;
 public class CurrencyModel implements Serializable {
     private String mCountryName, mCurrencyiso;
 
+
+
+    private String mItemName;
+    private int flag;
+    private String mHeadlineNews;
+    private String mUrlNews;
+    private String mDescriptionNews;
+    private String mAuthorNews;
+    private String mUrlImageNews;
+    private String mStockPrice;
+    private String mStockName;
+
+    public String getmStockPrice() {
+        return mStockPrice;
+    }
+
+    public void setmStockPrice(String mStockPrice) {
+        this.mStockPrice = mStockPrice;
+    }
+
+    public String getmStockName() {
+        return mStockName;
+    }
     public String getmItemName() {
         return mItemName;
     }
@@ -16,16 +39,9 @@ public class CurrencyModel implements Serializable {
     public void setmItemName(String mItemName) {
         this.mItemName = mItemName;
     }
-
-    private String mItemName;
-    private int flag;
-    private double rate;
-    private String mHeadlineNews;
-    private String mUrlNews;
-    private String mDescriptionNews;
-    private String mAuthorNews;
-    private String mUrlImageNews;
-
+    public void setmStockName(String mStockName) {
+        this.mStockName = mStockName;
+    }
 
     public String getmCountryName() {
         return mCountryName;

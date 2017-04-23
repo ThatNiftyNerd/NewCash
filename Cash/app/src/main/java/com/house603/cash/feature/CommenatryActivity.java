@@ -44,12 +44,7 @@ public class CommenatryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commenatry);
-        int SDK_INT = android.os.Build.VERSION.SDK_INT;
-        if (SDK_INT > 8) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                    .permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+
         initView();
         initModel();
     }
@@ -62,12 +57,7 @@ public class CommenatryActivity extends AppCompatActivity {
     private void initModel() {
         loadCommentaryExchangeData();
     }
-    private void YahooTest() throws IOException {
-        String[] symbols = new String[]{"INTC", "BABA", "TSLA", "AIR.PA", "YHOO"};
-        Map<String, Stock> stocks = YahooFinance.get(symbols); // single request
-        Stock intel = stocks.get("INTC");
-        Stock airbus = stocks.get("AIR.PA");
-    }
+
     public void loadCommentaryExchangeData() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(API_URL1, new AsyncHttpResponseHandler() {

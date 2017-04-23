@@ -6,9 +6,19 @@
     <string name="cancel">Cancel</string>
     <string name="search">Search</string>
 
-    <string-array name="langue_list">
-        <item>English</item>
-        <item>French</item>
-        <item>Vietnamese</item>
+    <string-array name="stock_name">
+        <item>In</item>
+        <item>BA</item>
+        <item>Tesla</item>
+        <item>Air</item>
+        <item>Yahoo</item>
+    </string-array>
+
+    <string-array name="stock_iso">
+        <item>INTC</item>
+        <item>BABA</item>
+        <item>TSLA</item>
+        <item>AIR.PA</item>
+        <item>YHOO</item>
     </string-array>
 </resources>
