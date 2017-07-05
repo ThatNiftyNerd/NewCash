@@ -1,15 +1,38 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/item_black</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <!--<style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/white</item>-->
+        <!--<item name="autoCompleteTextViewStyle">@style/XYZSearchView</item>-->
+        <!--<item name="android:textColorPrimary">@color/white</item>-->
+        <!--<item name="android:textColorSecondary">@color/white</item>-->
+    <!--</style>-->
+
+    <!--<style name="XYZSearchView" parent="Widget.AppCompat.Light.AutoCompleteTextView">-->
+        <!--<item name="android:textCursorDrawable">@drawable/drawable_cusor</item>-->
+    <!--</style>-->
+
+    <style name="Theme.AppCompat.Translucent_main" parent="Theme.AppCompat.NoActionBar">
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
 </resources>

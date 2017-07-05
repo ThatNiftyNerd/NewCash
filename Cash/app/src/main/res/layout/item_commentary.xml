@@ -16,18 +16,26 @@
             android:id="@+id/news_headline"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:layout_height="wrap_content"
             android:text="@string/CALCULATE"/>
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/news_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/news_url"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/CALCULATE"/>
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/published_at"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:text="@string/CALCULATE"/>
 

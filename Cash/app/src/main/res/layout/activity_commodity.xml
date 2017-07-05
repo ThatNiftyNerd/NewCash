@@ -4,11 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.house603.cash.feature.CommodityActivity">
+    android:padding="10dp"
+    tools:context="com.house603.cash.feature.CommodityActivity"
+    android:orientation="vertical">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_commodity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:id="@+id/img_commodity"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

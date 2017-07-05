@@ -1,5 +1,7 @@
 package com.house603.cash.feature;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,24 +13,19 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.house603.cash.R;
 import com.house603.cash.feature.adapter.CommentaryNewsAdapter;
+import com.house603.cash.feature.adapter.CommentaryNewsAdapterListener;
+import com.house603.cash.feature.model.ArticleResponse;
 import com.house603.cash.feature.model.ArticlesItem;
-import com.house603.cash.feature.model.Response;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
-
-import static java.security.AccessController.getContext;
 
 public class CommenatryActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
@@ -44,7 +41,12 @@ public class CommenatryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commenatry);
-
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         initView();
         initModel();
     }
@@ -70,7 +72,7 @@ public class CommenatryActivity extends AppCompatActivity {
                     jsonObj = new JSONObject(decodedData);
                     mModelList = new ArrayList<>();
                     Gson gson = new Gson();
-                    Response response = gson.fromJson(decodedData, Response.class);
+                    ArticleResponse response = gson.fromJson(decodedData, ArticleResponse.class);
                     for(ArticlesItem item : response.getArticles()){
                         //                       Log.d("TAG", "onSuccess: " + item.getDescription());
                     }
@@ -80,7 +82,13 @@ public class CommenatryActivity extends AppCompatActivity {
 //                    }
                     mModelList.addAll(response.getArticles());
                     mRecyclerView.setLayoutManager(mLayoutManager);
-                    mAdapter = new CommentaryNewsAdapter(getApplicationContext(), mModelList);
+                    mAdapter = new CommentaryNewsAdapter(getApplicationContext(), mModelList, new CommentaryNewsAdapterListener() {
+                        @Override
+                        public void ItemClick(ArticlesItem model, int p) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(model.getUrl()));
+                            startActivity(intent);
+                        }
+                    });
                     Toast.makeText(getApplicationContext(),"size" + mModelList.size(), Toast.LENGTH_LONG).show();
                     mRecyclerView.setAdapter(mAdapter);
                     //                  ShowArticles(mModelList);

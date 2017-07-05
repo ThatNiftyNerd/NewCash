@@ -2,14 +2,18 @@ package com.house603.cash.feature;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,9 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.house603.cash.R;
+import com.house603.cash.feature.adapter.CustomDrawerAdapter;
 import com.house603.cash.feature.adapter.MenuAdapter;
 import com.house603.cash.feature.adapter.MenuAdapterListener;
 import com.house603.cash.feature.model.CurrencyModel;
+import com.house603.cash.feature.model.CustomDrawerModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -71,61 +77,128 @@ public class MainActivity extends AppCompatActivity {
     JSONObject jsonObj = null;
     private String mValueCountryDown;
     private Double mDoubValueCountryDown;
+    private Button mCalculates;
+    private String[] mNavigationDrawerItemTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    Toolbar toolbar;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
+        initViews();
+        initActionbar();
         initModel();
 
+
+    }
+
+    private void initActionbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(R.string.app_name);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void initModel() {
 
-        mMenuItemList = new ArrayList<>();
-        for (int i = 0; i < MenuTitles.length; i++) {
-            CurrencyModel country = new CurrencyModel();
-            country.setmItemName(MenuTitles[i]);
-            mMenuItemList.add(country);
-
-            mAdapter = new MenuAdapter(getApplicationContext(), mMenuItemList, new MenuAdapterListener() {
-                @Override
-                public void ItemClick(int p) {
-                    switch (p){
-                        case 0:
-                            Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
-                            startActivity(mIntent);
-                            break;
-                        case 1:
-                            Intent ntent = new Intent(getApplicationContext(), CommodityActivity.class);
-                            startActivity(ntent);
-                            break;
-                    }
-
-                }
-            });
-
-            mRecyclerView.setLayoutManager(mLayoutManager);
-            mRecyclerView.setAdapter(mAdapter);
+        SetUpDrawer();
+       // mMenuItemList = new ArrayList<>();
+        //for (int i = 0; i < MenuTitles.length; i++) {
+        //    CurrencyModel country = new CurrencyModel();
+        //    country.setmItemName(MenuTitles[i]);
+        //    mMenuItemList.add(country);
+        //
+        //    mAdapter = new MenuAdapter(getApplicationContext(), mMenuItemList, new MenuAdapterListener() {
+        //        @Override
+        //        public void ItemClick(int p) {
+        //            switch (p){
+        //                case 0:
+        //                    Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
+        //                    startActivity(mIntent);
+        //                    break;
+        //                case 1:
+        //                    Intent ntent = new Intent(getApplicationContext(), CommodityActivity.class);
+        //                    startActivity(ntent);
+        //                    break;
+        //            }
+        //
+        //        }
+        //    });
+        //
+        //    mRecyclerView.setLayoutManager(mLayoutManager);
+        //    mRecyclerView.setAdapter(mAdapter);
   //          loadCurrencyExchangeData();
 //        getActionBar().setDisplayShowHomeEnabled(true);
 //        getActionBar().setHomeButtonEnabled(true);
+  //      }
+    }
+
+    private void SetUpDrawer(){
+        CustomDrawerModel[] drawerItem = new CustomDrawerModel[3];
+
+        drawerItem[0] = new CustomDrawerModel(R.mipmap.ic_launcher, "Commodity");
+        drawerItem[1] = new CustomDrawerModel(R.mipmap.ic_launcher, "Stock");
+        drawerItem[2] = new CustomDrawerModel(R.mipmap.ic_launcher, "AboutUs");
+        CustomDrawerAdapter adapter = new CustomDrawerAdapter(this, R.layout.item_drawer, drawerItem);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                getSupportActionBar().setHomeButtonEnabled(true);
+        setupDrawerToggle();
+    }
+
+    void setupDrawerToggle(){
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout,toolbar,R.string.app_name, R.string.app_name);
+        //This is necessary to change the icon of the Drawer Toggle upon state change.
+        mDrawerToggle.syncState();
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+
+    }
+
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:
+                Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
+                startActivity(mIntent);
+                break;
+            case 1:
+                Intent ntent = new Intent(getApplicationContext(), CommodityActivity.class);
+                startActivity(ntent);
+                break;
+            case 2:
+                break;
+
+            default:
+                break;
         }
     }
 
     private void initView() {
-        initViews();
+
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        mRecyclerView = (RecyclerView) findViewById(R.id.rec_menu_item);
-        mSlidingPanel = (SlidingPaneLayout) findViewById(R.id.SlidingPanel);
+       // mRecyclerView = (RecyclerView) findViewById(R.id.rec_menu_item);
+        //mSlidingPanel = (SlidingPaneLayout) findViewById(R.id.SlidingPanel);
         //  mMenuList = (ListView) findViewById(R.id.MenuList);
         appImage = (ImageView) findViewById(android.R.id.home);
         TitleText = (TextView) findViewById(android.R.id.title);
 
         //  mMenuList.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1,MenuTitles));
 
-        mSlidingPanel.setPanelSlideListener(panelListener);
+    //    mSlidingPanel.setPanelSlideListener(panelListener);
         mSlidingPanel.setParallaxDistance(200);
 
     }
@@ -139,9 +212,11 @@ public class MainActivity extends AppCompatActivity {
         mCountryNameDown = (TextView) findViewById(R.id.txt_country2);
         mEdCountryUp = (EditText) findViewById(R.id.edt_country_up);
         mEdCountryDown = (EditText) findViewById(R.id.edt_country_down);
+        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mCalculate = (Button) findViewById(R.id.btn_cal);
-        mCountryNameUp.setText("NGN");
-        mCountryNameDown.setText("USD");
+        mCalculates = (Button) findViewById(R.id.btn_cals);
         mFlagCountryUp.setImageResource(R.mipmap.nigeria);
         mFlagCountryDown.setImageResource(R.mipmap.united_states);
         mCountryUp.setOnClickListener(new View.OnClickListener() {
@@ -164,34 +239,74 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         IsoUpRate = ratesObject.getDouble(isoUp);
                         IsoDownRate = ratesObject.getDouble(isoDown);
+
+                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
+                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                            Double ans = ans1ConVert * IsoDownRate;
+                            String finalAns = String.valueOf(ans);
+                            mEdCountryDown.setText(finalAns);
+
+                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
+                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
+                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
+                            Double ans = ans1ConVert * IsoUpRate;
+                            String finalAns = String.valueOf(ans);
+                            mEdCountryUp.setText(finalAns);
+                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
+
+                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 } else {
+                    mCountryNameUp.setText("NGN");
+                    mCountryNameDown.setText("USD");
+                    isoUp = mCountryNameUp.getText().toString();
+                    isoDown = mCountryNameDown.getText().toString();
+                    try {
+                        IsoUpRate = ratesObject.getDouble(isoUp);
+                        IsoDownRate = ratesObject.getDouble(isoDown);
+
+                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
+                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                            Double ans = ans1ConVert * IsoDownRate;
+                            String finalAns = String.valueOf(ans);
+                            mEdCountryDown.setText(finalAns);
+
+                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
+                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
+                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
+                            Double ans = ans1ConVert * IsoUpRate;
+                            String finalAns = String.valueOf(ans);
+                            mEdCountryUp.setText(finalAns);
+                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
+
+                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     Toast.makeText(getApplicationContext(), "Pick country", Toast.LENGTH_SHORT).show();
                 }
 
-                if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
-                    mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
-                    Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
-                    Double ans = ans1ConVert * IsoDownRate;
-                    String finalAns = String.valueOf(ans);
-                    mEdCountryDown.setText(finalAns);
 
-                } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
-                    mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
-                    Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
-                    Double ans = ans1ConVert * IsoUpRate;
-                    String finalAns = String.valueOf(ans);
-                    mEdCountryUp.setText(finalAns);
-                } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
-                }
 
             }
 
 
+        });
+
+        mCalculates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getApplicationContext(), testActivity.class);
+                startActivity(in);
+            }
         });
     }
 
@@ -221,28 +336,29 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 3);
     }
 
-    SlidingPaneLayout.PanelSlideListener panelListener = new SlidingPaneLayout.PanelSlideListener() {
 
-        @Override
-        public void onPanelClosed(View arg0) {
-            // TODO Auto-genxxerated method stub        getActionBar().setTitle(getString(R.string.app_name));
-//            appImage.animate().rotation(0);
-        }
-
-        @Override
-        public void onPanelOpened(View arg0) {
-            // TODO Auto-generated method stub
-//            getActionBar().setTitle("Menu Titles");
-//            appImage.animate().rotation(90);
-        }
-
-        @Override
-        public void onPanelSlide(View arg0, float arg1) {
-            // TODO Auto-generated method stub
-
-        }
-
-    };
+//    SlidingPaneLayout.PanelSlideListener panelListener = new SlidingPaneLayout.PanelSlideListener() {
+//
+//        @Override
+//        public void onPanelClosed(View arg0) {
+//            // TODO Auto-genxxerated method stub        getActionBar().setTitle(getString(R.string.app_name));
+////            appImage.animate().rotation(0);
+//        }
+//
+//        @Override
+//        public void onPanelOpened(View arg0) {
+//            // TODO Auto-generated method stub
+////            getActionBar().setTitle("Menu Titles");
+////            appImage.animate().rotation(90);
+//        }
+//
+//        @Override
+//        public void onPanelSlide(View arg0, float arg1) {
+//            // TODO Auto-generated method stub
+//
+//        }
+//
+//    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -293,26 +409,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if data is null, if it is do nothing
-        if(data == null) return;
+     //   if(data == null) return;
         // check if the request code is same as what is passed here it is 2
-        if (requestCode == 2) {
-          //  country = data.getStringExtra("name");
-            flag = data.getIntExtra("map", 1);
-            iso = data.getStringExtra("iso");
-            mCountryNameUp.setText(iso);
-            mFlagCountryUp.setImageResource(flag);
-           isoUp = mCountryNameUp.getText().toString();
+        if (data != null){
+            if (requestCode == 2) {
+                //  country = data.getStringExtra("name");
+                flag = data.getIntExtra("map", 1);
+                iso = data.getStringExtra("iso");
+                mCountryNameUp.setText(iso);
+                mFlagCountryUp.setImageResource(flag);
+                isoUp = mCountryNameUp.getText().toString();
 
-        } else if (requestCode == 3) {
-         //   country = data.getStringExtra("name");
-            flag = data.getIntExtra("map", 1);
-            iso = data.getStringExtra("iso");
-            mCountryNameDown.setText(iso);
-            mFlagCountryDown.setImageResource(flag);
-            isoDown = mCountryNameDown.getText().toString();
+            } else if (requestCode == 3) {
+                //   country = data.getStringExtra("name");
+                flag = data.getIntExtra("map", 1);
+                iso = data.getStringExtra("iso");
+                mCountryNameDown.setText(iso);
+                mFlagCountryDown.setImageResource(flag);
+                isoDown = mCountryNameDown.getText().toString();
 
 
+            }
         }
+
     }
 
     @Override

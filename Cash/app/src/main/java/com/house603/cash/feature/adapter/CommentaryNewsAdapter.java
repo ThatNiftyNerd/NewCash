@@ -1,16 +1,22 @@
 package com.house603.cash.feature.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.house603.cash.R;
 import com.house603.cash.feature.model.ArticlesItem;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -21,11 +27,12 @@ public class CommentaryNewsAdapter extends RecyclerView.Adapter<CommentaryNewsAd
 //    private final CommentaryNewsAdapterListener mClickListener;
     private List<ArticlesItem> mCurrencyModelList;
     private Context mContext;
+    private CommentaryNewsAdapterListener mClickListener;
 
-    public CommentaryNewsAdapter(Context context, List<ArticlesItem> mContactModelList){
+    public CommentaryNewsAdapter(Context context, List<ArticlesItem> mContactModelList, CommentaryNewsAdapterListener listener){
         this.mCurrencyModelList = mContactModelList;
         this.mContext = context;
-//        this.mClickListener = listener;
+       this.mClickListener = listener;
     }
 
     @Override
@@ -42,12 +49,26 @@ public class CommentaryNewsAdapter extends RecyclerView.Adapter<CommentaryNewsAd
         holder.txt_headlineNews.setText(model.getTitle());
         holder.txt_url.setText(model.getUrl());
         holder.mpublished_date.setText(model.getPublishedAt());
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mClickListener.ItemClick(model,position);
-//            }
-//        });
+
+        URL url = null;
+        try {
+            url = new URL(model.getUrlToImage());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        Bitmap bmp = null;
+        try {
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        holder.mUrlImage.setImageBitmap(bmp);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mClickListener.ItemClick(model,position);
+            }
+        });
 
     }
 
@@ -56,18 +77,20 @@ public class CommentaryNewsAdapter extends RecyclerView.Adapter<CommentaryNewsAd
         return mCurrencyModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txt_headlineNews;
-        public TextView txt_url;
+        TextView txt_headlineNews;
+         TextView txt_url;
         TextView mpublished_date;
-        public View ItemView;
-        public ViewHolder(View v) {
+         ImageView mUrlImage;
+         View ItemView;
+         ViewHolder(View v) {
             super(v);
             ItemView = v;
             txt_headlineNews = (TextView) v.findViewById(R.id.news_headline);
             txt_url = (TextView) v.findViewById(R.id.news_url);
             mpublished_date = (TextView) v.findViewById(R.id.published_at);
+             mUrlImage = (ImageView) v.findViewById(R.id.news_image);
 
         }
     }

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Generated;
 
 @Generated("com.robohorse.robopojogenerator")
-public class Response{
+public class ArticleResponse {
 
 	@SerializedName("sortBy")
 	@Expose
@@ -61,7 +61,7 @@ public class Response{
 	@Override
  	public String toString(){
 		return 
-			"Response{" + 
+			"ArticleResponse{" +
 			"sortBy = '" + sortBy + '\'' + 
 			",source = '" + source + '\'' + 
 			",articles = '" + articles + '\'' + 

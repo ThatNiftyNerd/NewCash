@@ -19,10 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.MainActivity"></activity>
+        <activity android:name=".feature.MainActivity" />
         <activity android:name=".feature.CommenatryActivity" />
-        <activity android:name=".feature.CountryListActivity" />
-        <activity android:name=".feature.CommodityActivity"></activity>
+        <activity
+            android:name=".feature.CountryListActivity"
+            android:theme="@style/Theme.AppCompat.Translucent_main" />
+        <activity android:name=".feature.CommodityActivity" />
+        <activity android:name=".feature.testActivity"></activity>
     </application>
 
 </manifest>

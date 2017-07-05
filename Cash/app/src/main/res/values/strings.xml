@@ -8,17 +8,23 @@
 
     <string-array name="stock_name">
         <item>In</item>
-        <item>BA</item>
-        <item>Tesla</item>
-        <item>Air</item>
-        <item>Yahoo</item>
+        <!--<item>BA</item>-->
+        <!--<item>Tesla</item>-->
+        <!--<item>Air</item>-->
+        <!--<item>Yahoo</item>-->
     </string-array>
 
     <string-array name="stock_iso">
         <item>INTC</item>
-        <item>BABA</item>
-        <item>TSLA</item>
-        <item>AIR.PA</item>
-        <item>YHOO</item>
+        <!--<item>BABA</item>-->
+        <!--<item>TSLA</item>-->
+        <!--<item>AIR.PA</item>-->
+        <!--<item>YHOO</item>-->
+    </string-array>
+
+    <string-array name="navigation_drawer_items_array">
+        <item>Connect</item>
+        <item>Fixtures</item>
+        <item>Table</item>
     </string-array>
 </resources>
