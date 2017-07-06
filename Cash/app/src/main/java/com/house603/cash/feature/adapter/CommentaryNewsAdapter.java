@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.bumptech.glide.Glide;
 import com.house603.cash.R;
 import com.house603.cash.feature.model.ArticlesItem;
 
@@ -49,20 +49,11 @@ public class CommentaryNewsAdapter extends RecyclerView.Adapter<CommentaryNewsAd
         holder.txt_headlineNews.setText(model.getTitle());
         holder.txt_url.setText(model.getUrl());
         holder.mpublished_date.setText(model.getPublishedAt());
-
-        URL url = null;
-        try {
-            url = new URL(model.getUrlToImage());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        Bitmap bmp = null;
-        try {
-            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        holder.mUrlImage.setImageBitmap(bmp);
+        Glide.with(mContext)
+            .load(model.getUrlToImage())
+            .override(500,500)
+            .into( holder.mUrlImage);
+        //holder.mUrlImage.setImageBitmap(bmp);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.house603.cash.R;
 import com.house603.cash.feature.model.CurrencyModel;
 
@@ -42,7 +43,9 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     @Override
     public void onBindViewHolder(CountryListAdapter.ViewHolder holder, final int position) {
         final CurrencyModel model = mCurrencyModelList.get(position);
-        holder.mImg_country.setImageResource(model.getFlag());
+        Glide.with(mContext)
+            .load(model.getFlag())
+            .into( holder.mImg_country);
         holder.txt_countryName.setText(model.getmCountryName());
         holder.txt_iso.setText(model.getmCurrencyiso());
         holder.itemView.setOnClickListener(new View.OnClickListener() {

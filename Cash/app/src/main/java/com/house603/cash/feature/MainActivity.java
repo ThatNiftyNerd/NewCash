@@ -1,9 +1,11 @@
 package com.house603.cash.feature;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
@@ -25,6 +27,8 @@ import android.widget.Toast;
 
 import com.house603.cash.R;
 import com.house603.cash.feature.adapter.CustomDrawerAdapter;
+import com.house603.cash.feature.adapter.MainNavAdapter;
+import com.house603.cash.feature.adapter.MainNavListener;
 import com.house603.cash.feature.adapter.MenuAdapter;
 import com.house603.cash.feature.adapter.MenuAdapterListener;
 import com.house603.cash.feature.model.CurrencyModel;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView appImage;
     TextView TitleText;
     private List<CurrencyModel> mMenuItemList;
-    MenuAdapter mAdapter;
+    MainNavAdapter mAdapter;
     private RecyclerView mRecyclerView;
     CurrencyModel mCurrencymodel;
     private LinearLayoutManager mLayoutManager;
@@ -78,12 +82,10 @@ public class MainActivity extends AppCompatActivity {
     private String mValueCountryDown;
     private Double mDoubValueCountryDown;
     private Button mCalculates;
-    private String[] mNavigationDrawerItemTitles;
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
+    String TITLES[] = {"Home","Commentary","About Us"};
+    int ICONS[] = { R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
     Toolbar toolbar;
-    private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
     android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 
     @Override
@@ -105,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initModel() {
-
         SetUpDrawer();
+        SetUpNavView();
        // mMenuItemList = new ArrayList<>();
         //for (int i = 0; i < MenuTitles.length; i++) {
         //    CurrencyModel country = new CurrencyModel();
@@ -139,47 +141,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void SetUpDrawer(){
-        CustomDrawerModel[] drawerItem = new CustomDrawerModel[3];
-
-        drawerItem[0] = new CustomDrawerModel(R.mipmap.ic_launcher, "Commodity");
-        drawerItem[1] = new CustomDrawerModel(R.mipmap.ic_launcher, "Stock");
-        drawerItem[2] = new CustomDrawerModel(R.mipmap.ic_launcher, "AboutUs");
-        CustomDrawerAdapter adapter = new CustomDrawerAdapter(this, R.layout.item_drawer, drawerItem);
-        mDrawerList.setAdapter(adapter);
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView);
+        mRecyclerView.setHasFixedSize(true);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                getSupportActionBar().setHomeButtonEnabled(true);
-        setupDrawerToggle();
-    }
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name){
 
-    void setupDrawerToggle(){
-        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this,mDrawerLayout,toolbar,R.string.app_name, R.string.app_name);
-        //This is necessary to change the icon of the Drawer Toggle upon state change.
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+
+            }
+
+
+
+        }; // Drawer Toggle Object Made
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+    public void SetUpNavView() {
+        mAdapter = new MainNavAdapter(getApplicationContext(), TITLES, ICONS, new MainNavListener() {
+            @Override
+            public void OnItemClick(int Position) {
+                selectItemNav(Position);
+            }
+            });
 
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    private void selectItem(int position) {
+
+    private void selectItemNav(int position) {
         switch (position) {
-            case 0:
-                Intent mIntent = new Intent(getApplicationContext(), CommenatryActivity.class);
+            case 1:
+                Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(mIntent);
                 break;
-            case 1:
-                Intent ntent = new Intent(getApplicationContext(), CommodityActivity.class);
+            case 2:
+                Intent ntent = new Intent(getApplicationContext(), CommenatryActivity.class);
                 startActivity(ntent);
                 break;
-            case 2:
+            case 3:
                 break;
 
             default:
@@ -212,9 +222,7 @@ public class MainActivity extends AppCompatActivity {
         mCountryNameDown = (TextView) findViewById(R.id.txt_country2);
         mEdCountryUp = (EditText) findViewById(R.id.edt_country_up);
         mEdCountryDown = (EditText) findViewById(R.id.edt_country_down);
-        mNavigationDrawerItemTitles= getResources().getStringArray(R.array.navigation_drawer_items_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mCalculate = (Button) findViewById(R.id.btn_cal);
         mCalculates = (Button) findViewById(R.id.btn_cals);
         mFlagCountryUp.setImageResource(R.mipmap.nigeria);
