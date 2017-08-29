@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/dail_keypad"
+    android:layout_marginTop="20dp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            <Button
+                android:id="@+id/btnseven"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="7"
+                tools:ignore="HardcodedText"
+                />
+
+            <Button
+                android:id="@+id/btneight"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="8"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/btnthree"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="9"
+                tools:ignore="HardcodedText"
+                />
+            <ImageButton
+                android:id="@+id/btndelete"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+               android:src="@drawable/ic_delete_white_24dp"
+                tools:ignore="HardcodedText"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            <Button
+                android:id="@+id/btnfours"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="4"
+                tools:ignore="HardcodedText"
+                />
+            <Button
+                android:id="@+id/btnfive"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="5"
+                tools:ignore="HardcodedText"
+                />
+            <Button
+                android:id="@+id/btnsix"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="6"
+                tools:ignore="HardcodedText"
+                />
+
+            <ImageButton
+                android:id="@+id/btncancel"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:src="@drawable/ic_cancel_black_24dp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            <Button
+                android:id="@+id/btnone"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="1"
+                tools:ignore="HardcodedText"
+                />
+            <Button
+                android:id="@+id/btntwo"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="2"
+                tools:ignore="HardcodedText"
+                />
+            <Button
+                android:id="@+id/btnthrees"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="3"
+                tools:ignore="HardcodedText"
+                />
+
+            <ImageButton
+                android:id="@+id/btnswitch"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:src="@drawable/ic_swap_horiz_white_24dp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/btnpoint"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangular_border"
+                android:text="."
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/btnzero"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2"
+                android:background="@drawable/rectangular_border"
+                android:text="0"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
