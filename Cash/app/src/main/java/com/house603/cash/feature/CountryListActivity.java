@@ -173,7 +173,8 @@ public class CountryListActivity extends AppCompatActivity {
         query = query.toLowerCase();
         mCountryList.clear();
         for (CurrencyModel child : mContactListSearch) {
-            if (child.getmCountryName().toLowerCase().contains(query)) {
+            if (child.getmCountryName().toLowerCase().contains(query)
+                    || child.getmCurrencyiso().toLowerCase().contains(query)) {
                 mCountryList.add(child);
             }
         }
@@ -211,7 +212,6 @@ public class CountryListActivity extends AppCompatActivity {
             country.setFlag(flagId[i]);
             country.setmCurrencyiso(currencyISO[i]);
             mCountryList.add(country);
-            mContactListSearch.addAll(mCountryList);
 
             for (CurrencyModel model : mCountryList) {
                 setCurrencyModel(model);
@@ -243,9 +243,8 @@ public class CountryListActivity extends AppCompatActivity {
 
             });
             mRecyclerView.setAdapter(mAdapter);
-
-
         }
+        mContactListSearch.addAll(mCountryList);
     }
 
     public List<CurrencyModel> filter(List<CurrencyModel> models, String query) {

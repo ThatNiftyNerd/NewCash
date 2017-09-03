@@ -12,13 +12,18 @@ import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -46,7 +51,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static java.security.AccessController.getContext;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     String[] MenuTitles = new String[]{"COMMENTARY", "COMMODITY", "ABOUT US"};
     SlidingPaneLayout mSlidingPanel;
     ListView mMenuList;
@@ -73,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mEdCountryUp;
     private EditText mEdCountryDown;
     private Button mCalculate;
+    private Button btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnPoint;
+    private ImageButton btnCancel, btnSwitch, btnDelete;
     Double IsoUpRate, IsoDownRate;
     private static final String API_URL = "https://openexchangerates.org/api/latest.json?app_id=4691eb36ebce42a9ac5db9d977231aed";
     private String mValueCountryUp;
@@ -239,83 +246,198 @@ public class MainActivity extends AppCompatActivity {
                 OpenCountryList2();
             }
         });
-        mCalculate.setOnClickListener(new View.OnClickListener() {
+//        mCalculate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setValueToString();
+//                if (isoUp != null && isoDown != null) {
+//                    try {
+//                        IsoUpRate = ratesObject.getDouble(isoUp);
+//                        IsoDownRate = ratesObject.getDouble(isoDown);
+//
+//                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
+//                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+//                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+//                            Double ans = ans1ConVert * IsoDownRate;
+//                            String finalAns = String.valueOf(ans);
+//                            mEdCountryDown.setText(finalAns);
+//
+//                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
+//                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
+//                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
+//                            Double ans = ans1ConVert * IsoUpRate;
+//                            String finalAns = String.valueOf(ans);
+//                            mEdCountryUp.setText(finalAns);
+//                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
+//
+//                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                } else {
+//                    mCountryNameUp.setText("NGN");
+//                    mCountryNameDown.setText("USD");
+//                    isoUp = mCountryNameUp.getText().toString();
+//                    isoDown = mCountryNameDown.getText().toString();
+//                    try {
+//                        IsoUpRate = ratesObject.getDouble(isoUp);
+//                        IsoDownRate = ratesObject.getDouble(isoDown);
+//
+//                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
+//                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+//                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+//                            Double ans = ans1ConVert * IsoDownRate;
+//                            String finalAns = String.valueOf(ans);
+//                            mEdCountryDown.setText(finalAns);
+//
+//                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
+//                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
+//                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
+//                            Double ans = ans1ConVert * IsoUpRate;
+//                            String finalAns = String.valueOf(ans);
+//                            mEdCountryUp.setText(finalAns);
+//                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
+//
+//                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    Toast.makeText(getApplicationContext(), "Pick country", Toast.LENGTH_SHORT).show();
+//                }
+//
+//
+//
+//            }
+//
+//
+//        });
+//
+//        mCalculates.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent in = new Intent(getApplicationContext(), testActivity.class);
+//                startActivity(in);
+//            }
+//        });
+
+        mEdCountryDown.setEnabled(false);
+        mEdCountryUp.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                setValueToString();
-                if (isoUp != null && isoDown != null) {
-                    try {
-                        IsoUpRate = ratesObject.getDouble(isoUp);
-                        IsoDownRate = ratesObject.getDouble(isoDown);
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
-                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
-                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
-                            Double ans = ans1ConVert * IsoDownRate;
-                            String finalAns = String.valueOf(ans);
-                            mEdCountryDown.setText(finalAns);
+            }
 
-                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
-                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
-                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
-                            Double ans = ans1ConVert * IsoUpRate;
-                            String finalAns = String.valueOf(ans);
-                            mEdCountryUp.setText(finalAns);
-                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
-
-                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            @Override
+            public void onTextChanged(CharSequence value, int i, int i1, int i2) {
+                try {
+                    if (isoUp == null && isoDown == null){
+                        isoUp = mCountryNameUp.getText().toString();
+                        isoDown = mCountryNameDown.getText().toString();
                     }
 
-                } else {
-                    mCountryNameUp.setText("NGN");
-                    mCountryNameDown.setText("USD");
-                    isoUp = mCountryNameUp.getText().toString();
-                    isoDown = mCountryNameDown.getText().toString();
-                    try {
+                    mValueCountryUp = String.valueOf(value);
+                    if (!mValueCountryUp.isEmpty()) {
                         IsoUpRate = ratesObject.getDouble(isoUp);
                         IsoDownRate = ratesObject.getDouble(isoDown);
+                        mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                        Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                        Double ans = ans1ConVert * IsoDownRate;
+                        String finalAns = String.valueOf(ans);
+                        mEdCountryDown.setText(finalAns);
 
-                        if (!mValueCountryUp.isEmpty() & mValueCountryDown.isEmpty()) {
-                            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
-                            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
-                            Double ans = ans1ConVert * IsoDownRate;
-                            String finalAns = String.valueOf(ans);
-                            mEdCountryDown.setText(finalAns);
-
-                        } else if (!mValueCountryDown.isEmpty() & mValueCountryUp.isEmpty()) {
-                            mDoubValueCountryDown = Double.valueOf(mValueCountryDown);
-                            Double ans1ConVert = mDoubValueCountryDown / IsoDownRate;
-                            Double ans = ans1ConVert * IsoUpRate;
-                            String finalAns = String.valueOf(ans);
-                            mEdCountryUp.setText(finalAns);
-                        } else if (!mValueCountryUp.isEmpty() & !mValueCountryDown.isEmpty()) {
-
-                            Toast.makeText(getApplicationContext(), "Clear screen", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    }else{
+                        mEdCountryDown.setText("");
                     }
 
-                    Toast.makeText(getApplicationContext(), "Pick country", Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-
-
             }
 
-
-        });
-
-        mCalculates.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent in = new Intent(getApplicationContext(), testActivity.class);
-                startActivity(in);
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+
+        mEdCountryUp.setOnTouchListener(new View.OnTouchListener() {
+             @Override
+             public boolean onTouch(View v, MotionEvent event) {
+                 int inType = mEdCountryUp.getInputType();       // Backup the input type 
+                 mEdCountryUp.setInputType(InputType.TYPE_NULL); // Disable standard keyboard 
+                 mEdCountryUp.onTouchEvent(event);               // Call native handler 
+                 mEdCountryUp.setInputType(inType);              // Restore input type 
+                 return true; // Consume touch event 
+             }
+        });
+        initButtons();
+    }
+
+    public void initButtons(){
+        btn0 = (Button) findViewById(R.id.btnzero);
+        btn1 = (Button) findViewById(R.id.btnone);
+        btn2 = (Button) findViewById(R.id.btntwo);
+        btn3 = (Button) findViewById(R.id.btnThree);
+        btn4 = (Button) findViewById(R.id.btnFour);
+        btn5 = (Button) findViewById(R.id.btnfive);
+        btn6 = (Button) findViewById(R.id.btnsix);
+        btn7 = (Button) findViewById(R.id.btnseven);
+        btn8 = (Button) findViewById(R.id.btneight);
+        btn9 = (Button) findViewById(R.id.btnNine);
+        btnPoint = (Button) findViewById(R.id.btnpoint);
+        btnCancel = (ImageButton) findViewById(R.id.btncancel);
+        btnDelete = (ImageButton) findViewById(R.id.btndelete);
+        btnSwitch = (ImageButton) findViewById(R.id.btnswitch);
+
+        btn0.setOnClickListener(this);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
+        btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this);
+        btnPoint.setOnClickListener(this);
+        btnSwitch.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        String value = mEdCountryUp.getText().toString();
+        int GUI_Id = v.getId();
+        switch (GUI_Id){
+            case R.id.btnpoint:
+                if(value.contains("."))
+                    return;
+                else
+                    value += ".";
+                    mEdCountryUp.setText(value);
+                break;
+            case R.id.btndelete:
+                int length = mEdCountryUp.getText().length();
+                if (length > 0) {
+                    mEdCountryUp.getText().delete(length - 1, length);
+                }
+                break;
+            case R.id.btncancel:
+                mEdCountryUp.setText("");
+                break;
+            case R.id.btnswitch:
+                break;
+            default:
+                Button sender = (Button) v;
+                value += sender.getText();
+                mEdCountryUp.setText(value);
+        }
+
     }
 
     private void setValueToString() {
@@ -436,7 +558,6 @@ public class MainActivity extends AppCompatActivity {
                 mFlagCountryDown.setImageResource(flag);
                 isoDown = mCountryNameDown.getText().toString();
 
-
             }
         }
 
@@ -447,4 +568,5 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
          loadCurrencyExchangeData();
     }
+
 }

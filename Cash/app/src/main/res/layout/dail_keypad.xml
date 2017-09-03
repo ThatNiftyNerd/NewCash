@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <Button
                 android:id="@+id/btnseven"
                 android:layout_width="0dp"
@@ -28,8 +29,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="7"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/btneight"
@@ -41,14 +41,13 @@
                 tools:ignore="HardcodedText" />
 
             <Button
-                android:id="@+id/btnthree"
+                android:id="@+id/btnNine"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="9"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
             <ImageButton
                 android:id="@+id/btndelete"
                 android:layout_width="0dp"
@@ -66,15 +65,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <Button
-                android:id="@+id/btnfours"
+                android:id="@+id/btnFour"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="4"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
+
             <Button
                 android:id="@+id/btnfive"
                 android:layout_width="0dp"
@@ -82,8 +82,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="5"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
+
             <Button
                 android:id="@+id/btnsix"
                 android:layout_width="0dp"
@@ -91,8 +91,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="6"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
 
             <ImageButton
                 android:id="@+id/btncancel"
@@ -110,6 +109,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <Button
                 android:id="@+id/btnone"
                 android:layout_width="0dp"
@@ -117,8 +117,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="1"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
+
             <Button
                 android:id="@+id/btntwo"
                 android:layout_width="0dp"
@@ -126,17 +126,16 @@
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="2"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
+
             <Button
-                android:id="@+id/btnthrees"
+                android:id="@+id/btnThree"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/rectangular_border"
                 android:text="3"
-                tools:ignore="HardcodedText"
-                />
+                tools:ignore="HardcodedText" />
 
             <ImageButton
                 android:id="@+id/btnswitch"
