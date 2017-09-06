@@ -1,6 +1,7 @@
 package com.house603.cash.feature;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -41,6 +42,7 @@ import com.house603.cash.feature.model.CustomDrawerModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.lang.reflect.Method;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -233,7 +235,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mCalculate = (Button) findViewById(R.id.btn_cal);
         mCalculates = (Button) findViewById(R.id.btn_cals);
         mFlagCountryUp.setImageResource(R.mipmap.nigeria);
+        mFlagCountryUp.setTag(R.mipmap.nigeria);
         mFlagCountryDown.setImageResource(R.mipmap.united_states);
+        mFlagCountryDown.setTag(R.mipmap.united_states);
         mCountryUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -246,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 OpenCountryList2();
             }
         });
+        mEdCountryUp.setSelection(mEdCountryUp.getText().length());
 //        mCalculate.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -333,6 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence value, int i, int i1, int i2) {
+                mEdCountryUp.setSelection(mEdCountryUp.getText().length());
                 try {
                     if (isoUp == null && isoDown == null){
                         isoUp = mCountryNameUp.getText().toString();
@@ -363,17 +369,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mEdCountryUp.setShowSoftInputOnFocus(false);
+        } else {
+            try {
+                final Method method = EditText.class.getMethod(
+                    "setShowSoftInputOnFocus"
+                    , new Class[]{boolean.class});
+                method.setAccessible(true);
+                method.invoke(mEdCountryUp, false);
+            } catch (Exception e) {
+                // ignore
+            }
+        }
 
-        mEdCountryUp.setOnTouchListener(new View.OnTouchListener() {
-             @Override
-             public boolean onTouch(View v, MotionEvent event) {
-                 int inType = mEdCountryUp.getInputType();       // Backup the input type 
-                 mEdCountryUp.setInputType(InputType.TYPE_NULL); // Disable standard keyboard 
-                 mEdCountryUp.onTouchEvent(event);               // Call native handler 
-                 mEdCountryUp.setInputType(inType);              // Restore input type 
-                 return true; // Consume touch event 
-             }
-        });
+        //mEdCountryUp.setOnTouchListener(new View.OnTouchListener() {
+        //     @Override
+        //     public boolean onTouch(View v, MotionEvent event) {
+        //       //  int inType = mEdCountryUp.getInputType();       // Backup the input type 
+        //       //  mEdCountryUp.setInputType(InputType.TYPE_NULL); // Disable standard keyboard 
+        //        // mEdCountryUp.onTouchEvent(event);               // Call native handler 
+        //       //  mEdCountryUp.setInputType(inType);              // Restore input type 
+        //         return true; // Consume touch event 
+        //     }
+        //});
         initButtons();
     }
 
@@ -431,6 +450,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mEdCountryUp.setText("");
                 break;
             case R.id.btnswitch:
+                String mUpperIsoValue = mCountryNameUp.getText().toString();
+                String mDownIsoValue = mCountryNameDown.getText().toString();
+                int iconUp = getDrawableId(mFlagCountryUp);
+                int iconDown = getDrawableId(mFlagCountryDown);
+                mFlagCountryDown.setImageResource(iconUp);
+                mFlagCountryDown.setTag(iconUp);
+                mFlagCountryUp.setImageResource(iconDown);
+                mFlagCountryUp.setTag(iconDown);
+                mCountryNameUp.setText(mDownIsoValue);
+                mCountryNameDown.setText(mUpperIsoValue);
+                isoUp = mCountryNameUp.getText().toString();
+                isoDown = mCountryNameDown.getText().toString();
+                try {
+                    if (isoUp == null && isoDown == null){
+                        isoUp = mCountryNameUp.getText().toString();
+                        isoDown = mCountryNameDown.getText().toString();
+                    }else {
+                        isoUp = mCountryNameUp.getText().toString();
+                        isoDown = mCountryNameDown.getText().toString();
+                    }
+                    mEdCountryUp.setText(mEdCountryDown.getText().toString());
+                    mValueCountryUp = mEdCountryUp.getText().toString();
+
+                    if (!mValueCountryUp.isEmpty()) {
+                        mEdCountryDown.setText("");
+                        IsoUpRate = ratesObject.getDouble(isoUp);
+                        IsoDownRate = ratesObject.getDouble(isoDown);
+                        mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                        Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                        Double ans = ans1ConVert * IsoDownRate;
+                        String finalAns = String.valueOf(ans);
+                        mEdCountryDown.setText(finalAns);
+
+                    }else{
+                        mEdCountryDown.setText("");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 break;
             default:
                 Button sender = (Button) v;
@@ -440,11 +500,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void setValueToString() {
-        mValueCountryUp = mEdCountryUp.getText().toString();
-        mValueCountryDown = mEdCountryDown.getText().toString();
-
+    private int getDrawableId(ImageView iv) {
+        return (Integer) iv.getTag();
     }
+
+    //private void setValueToString() {
+    //    mValueCountryUp = mEdCountryUp.getText().toString();
+    //    mValueCountryDown = mEdCountryDown.getText().toString();
+    //
+    //}
 
     public void OpenCountryList() {
         Intent intent = new Intent(getApplicationContext(), CountryListActivity.class);
@@ -548,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 iso = data.getStringExtra("iso");
                 mCountryNameUp.setText(iso);
                 mFlagCountryUp.setImageResource(flag);
+                mFlagCountryUp.setTag(flag);
                 isoUp = mCountryNameUp.getText().toString();
 
             } else if (requestCode == 3) {
@@ -556,6 +621,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 iso = data.getStringExtra("iso");
                 mCountryNameDown.setText(iso);
                 mFlagCountryDown.setImageResource(flag);
+                mFlagCountryDown.setTag(flag);
                 isoDown = mCountryNameDown.getText().toString();
 
             }

@@ -243,6 +243,9 @@ public class CountryListActivity extends AppCompatActivity {
 
             });
             mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setItemViewCacheSize(20);
+            mRecyclerView.setDrawingCacheEnabled(true);
+            mRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         }
         mContactListSearch.addAll(mCountryList);
     }
