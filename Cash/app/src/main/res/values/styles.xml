@@ -9,9 +9,9 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen</item>
-    </style>
+    <!--<style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">-->
+        <!--&lt;!&ndash;<item name="android:windowBackground">@drawable/splash_screen</item>&ndash;&gt;-->
+    <!--</style>-->
     <style name="Item.BtnLarge">
         <item name="android:layout_width">@dimen/item_btn_size_large</item>
         <item name="android:layout_height">@dimen/item_btn_size_large</item>
@@ -20,6 +20,7 @@
     <style name="Item" parent="">
         <item name="android:textColor">@color/white</item>
     </style>
+
 
     <!--<style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.Light.NoActionBar">-->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->

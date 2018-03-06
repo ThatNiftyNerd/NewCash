@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/dail_keypad"
+    android:visibility="gone"
+    android:background="@color/white"
+    android:orientation="vertical"
+   >
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"
+    android:id="@+id/thme1"
+    android:layout_height="wrap_content">
+    <com.house603.cashew.feature.utils.CircleCardView
+      android:layout_height="@dimen/color_dim"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:id="@+id/theme_default">
+
+      <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:tint="@color/colorPrimary"
+        android:src="@drawable/circle_shape"/>
+      <android.support.v7.widget.AppCompatTextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="1"
+        >
+      </android.support.v7.widget.AppCompatTextView>
+    </com.house603.cashew.feature.utils.CircleCardView>
+    <com.house603.cashew.feature.utils.CircleCardView
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_height="@dimen/color_dim"
+      android:id="@+id/theme_dark_blue"
+      android:layout_marginLeft="@dimen/circle_left_margin"
+      >
+      <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:tint="@color/colorPrimary"
+        android:src="@drawable/circle_shape"/>
+      <android.support.v7.widget.AppCompatTextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="1"
+        />
+    </com.house603.cashew.feature.utils.CircleCardView>
+
+    <com.house603.cashew.feature.utils.CircleCardView
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_height="@dimen/color_dim"
+      android:id="@+id/theme_deep_blue"
+      android:layout_marginLeft="@dimen/circle_left_margin"
+      >
+      <android.support.v7.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:tint="@color/colorPrimary"
+        android:src="@drawable/circle_shape"/>
+      <android.support.v7.widget.AppCompatTextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="1"
+        />
+    </com.house603.cashew.feature.utils.CircleCardView>
+
+
+
+
+  </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/grd_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:columnCount="3"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/btn1"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector1"
+            android:text="1"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn2"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector2"
+            android:text="2"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn3"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector3"
+            android:text="3"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn4"
+            style="@style/Item.BtnLarge"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector2"
+            android:text="4"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn5"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector1"
+            android:text="5"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn6"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector3"
+            android:text="6"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn7"
+            style="@style/Item.BtnLarge"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector3"
+            android:text="7"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn8"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector2"
+            android:text="8"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn9"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector1"
+            android:text="9"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/btnback"
+            style="@style/Item.BtnLarge"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector2"
+            android:visibility="visible"
+            android:src="@drawable/ic_arrow_back_white_24dp" />
+
+        <Button
+            android:id="@+id/btn0"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/t9_button_selector1"
+            android:text="0"
+            tools:ignore="HardcodedText" />
+
+        <ImageButton
+            android:id="@+id/btn_clear"
+            style="@style/Item.BtnLarge"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:background="@drawable/t9_button_selector2"
+            android:src="@drawable/ic_clear_white_24dp" />
+
+
+    </GridLayout>
+
+</LinearLayout>
+
+

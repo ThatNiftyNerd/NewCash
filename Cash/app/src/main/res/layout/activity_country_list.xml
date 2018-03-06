@@ -7,7 +7,7 @@
     android:padding="10dp"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.house603.cash.feature.CountryListActivity">
+    tools:context="com.house603.cashew.feature.CountryListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -5,6 +5,8 @@
     <string name="selct_country">Select Country</string>
     <string name="cancel">Cancel</string>
     <string name="search">Search</string>
+    <string name="hash">#</string>
+    <string name="star">*</string>
 
     <string-array name="stock_name">
         <item>In</item>
