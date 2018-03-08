@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               Double ans = ans1ConVert * IsoDownRate;
               Double conDecimal = Double.valueOf(df.format(ans));
               String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.0f", ans));
+              mEdCountryDown.setText(String.format("%.2f", ans));
 
             } else {
               mEdCountryDown.setText("");
@@ -409,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               Double ans = ans1ConVert * IsoDownRate;
               Double conDecimal = Double.valueOf(df.format(ans));
               String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.0f", ans));
+              mEdCountryDown.setText(String.format("%.2f", ans));
 
             } else {
               mEdCountryDown.setText("");
@@ -516,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               Double ans = ans1ConVert * IsoDownRate;
               Double conDecimal = Double.valueOf(df.format(ans));
               String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.0f", ans));
+              mEdCountryDown.setText(String.format("%.2f", ans));
 
             } else {
               mEdCountryDown.setText("");
@@ -557,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               Double ans = ans1ConVert * IsoDownRate;
               Double conDecimal = Double.valueOf(df.format(ans));
               String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.0f", ans));
+              mEdCountryDown.setText(String.format("%.2f", ans));
 
             } else {
               mEdCountryDown.setText("");
