@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
   private NumberKeyboard numberKeyboard;
   private PreferenUtil mPreference;
-
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     getSupportActionBar().setDisplayShowHomeEnabled(true);
   }
 
-
   public void SetUpNavView() {
     mAdapter = new MainNavAdapter(getApplicationContext(), TITLES, ICONS, new MainNavListener() {
       @Override
@@ -118,7 +116,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     mRecyclerView.setAdapter(mAdapter);
 
   }
-
 
   private void selectItemNav(int position) {
     switch (position) {
@@ -137,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         break;
     }
   }
-
 
   public void initViews() {
     mPreference = PreferenUtil.getInstant(getApplicationContext());
@@ -239,7 +235,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
     return activeNetworkInfo != null && activeNetworkInfo.isConnected();
   }
-
 
   @SuppressLint("ClickableViewAccessibility")
   private void initCallKeyboardAction() {
@@ -447,7 +442,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   }
 
-
   public void OpenCountryList2() {
     Intent intent = new Intent(getApplicationContext(), CountryListActivity.class);
     Bundle bundle = new Bundle();
@@ -457,7 +451,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     startActivityForResult(intent, 3);
   }
 
-
   private void loadCurrencyExchangeData() {
     AsyncHttpClient client = new AsyncHttpClient();
     client.get(API_URL, new AsyncHttpResponseHandler() {
@@ -465,7 +458,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         String decodedData = new String(responseBody);
         Log.d("result", "" + decodedData);
-
         try {
           jsonObj = new JSONObject(decodedData);
           ratesObject = jsonObj.getJSONObject("rates");
@@ -589,6 +581,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   }
 
   @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+    if(hasFocus){
+      loadCurrencyExchangeData();
+    }
+  }
+
+  @Override
   public void onNumberClicked(int i) {
     addString(String.valueOf(i));
   }
@@ -605,7 +605,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   public void onRightAuxButtonClicked() {
     mEdCountryUp.getText().clear();
   }
-
 
   public int getEditSelection() {
     return mEdCountryUp.getSelectionStart();
