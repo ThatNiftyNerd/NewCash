@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
   private NumberKeyboard numberKeyboard;
   private PreferenUtil mPreference;
-  
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -184,6 +185,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             mValueCountryUp = String.valueOf(value);
             if (!mValueCountryUp.isEmpty()) {
+              if(ratesObject == null){
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+                return;
+              }
               IsoUpRate = ratesObject.getDouble(isoUp);
               IsoDownRate = ratesObject.getDouble(isoDown);
               mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
@@ -501,6 +507,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             mValueCountryUp =  mEdCountryUp.getText().toString();
             if (!mValueCountryUp.isEmpty()) {
+              if(ratesObject == null){
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+                return;
+              }
               IsoUpRate = ratesObject.getDouble(isoUp);
               IsoDownRate = ratesObject.getDouble(isoDown);
               mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
@@ -542,6 +553,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             mValueCountryUp =  mEdCountryUp.getText().toString();
             if (!mValueCountryUp.isEmpty()) {
+              if(ratesObject == null){
+                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+                return;
+              }
               IsoUpRate = ratesObject.getDouble(isoUp);
               IsoDownRate = ratesObject.getDouble(isoDown);
               mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
