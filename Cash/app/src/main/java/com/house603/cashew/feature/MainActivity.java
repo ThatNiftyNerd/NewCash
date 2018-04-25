@@ -30,10 +30,12 @@ import android.widget.Toast;
 
 import com.davidmiguel.numberkeyboard.NumberKeyboard;
 import com.davidmiguel.numberkeyboard.NumberKeyboardListener;
+import com.google.gson.Gson;
 import com.house603.cashew.R;
 import com.house603.cashew.feature.adapter.MainNavAdapter;
 import com.house603.cashew.feature.adapter.MainNavListener;
 import com.house603.cashew.feature.model.CurrencyModel;
+import com.house603.cashew.feature.model.Rates;
 import com.house603.cashew.feature.utils.PreferenUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -175,41 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
       @Override
       public void onTextChanged(CharSequence value, int i, int i1, int i2) {
-        if (isNetworkAvailable()) {
-          mEdCountryUp.setSelection(mEdCountryUp.getText().length());
-          try {
-            if (isoUp == null && isoDown == null) {
-              isoUp = mCountryNameUp.getText().toString();
-              isoDown = mCountryNameDown.getText().toString();
-            }
-
-            mValueCountryUp = String.valueOf(value);
-            if (!mValueCountryUp.isEmpty()) {
-              if(ratesObject == null){
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-                return;
-              }
-              IsoUpRate = ratesObject.getDouble(isoUp);
-              IsoDownRate = ratesObject.getDouble(isoDown);
-              mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
-              Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
-              Double ans = ans1ConVert * IsoDownRate;
-              Double conDecimal = Double.valueOf(df.format(ans));
-              String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.2f", ans));
-
-            } else {
-              mEdCountryDown.setText("");
-            }
-
-          } catch (JSONException e) {
-            e.printStackTrace();
-          }
-        } else {
-          Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
-              .show();
-        }
+        ConversionOnTextChange(value, df);
 
       }
 
@@ -235,203 +203,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //   initCallKeyboardAction();
   }
 
+  private void ConversionOnTextChange(CharSequence value, DecimalFormat df) {
+    if (isNetworkAvailable()) {
+      mEdCountryUp.setSelection(mEdCountryUp.getText().length());
+      try {
+        if (isoUp == null && isoDown == null) {
+          isoUp = mCountryNameUp.getText().toString();
+          isoDown = mCountryNameDown.getText().toString();
+        }
+
+        mValueCountryUp = String.valueOf(value);
+        if (!mValueCountryUp.isEmpty()) {
+          if(ratesObject == null){
+            if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj().isEmpty()){
+              ratesObject = new JSONObject(mPreference.getRateJsonObj());
+            }else {
+              Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
+              snackbar.show();
+              return;
+            }
+          }
+          IsoUpRate = ratesObject.getDouble(isoUp);
+          IsoDownRate = ratesObject.getDouble(isoDown);
+          mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+          Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+          Double ans = ans1ConVert * IsoDownRate;
+          Double conDecimal = Double.valueOf(df.format(ans));
+          String finalAns = String.valueOf(conDecimal);
+          mEdCountryDown.setText(String.format("%.2f", ans));
+
+        } else {
+          mEdCountryDown.setText("");
+        }
+
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+    } else {
+      if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj().isEmpty()){
+        mEdCountryUp.setSelection(mEdCountryUp.getText().length());
+        try {
+          ratesObject = new JSONObject(mPreference.getRateJsonObj());
+          if (isoUp == null && isoDown == null) {
+            isoUp = mCountryNameUp.getText().toString();
+            isoDown = mCountryNameDown.getText().toString();
+          }
+          mValueCountryUp = String.valueOf(value);
+
+          if (!mValueCountryUp.isEmpty()) {
+            IsoUpRate = ratesObject.getDouble(isoUp);
+            IsoDownRate = ratesObject.getDouble(isoDown);
+            mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+            Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+            Double ans = ans1ConVert * IsoDownRate;
+            Double conDecimal = Double.valueOf(df.format(ans));
+            String finalAns = String.valueOf(conDecimal);
+            mEdCountryDown.setText(String.format("%.2f", ans));
+
+          } else {
+            mEdCountryDown.setText("");
+          }
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }else {
+        Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
+            .show();
+      }
+
+    }
+  }
+
   private boolean isNetworkAvailable() {
     ConnectivityManager connectivityManager
         = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
     return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-  }
-
-  @SuppressLint("ClickableViewAccessibility")
-  private void initCallKeyboardAction() {
-    ImageButton mBtnBack = (ImageButton) findViewById(R.id.btn_clear);
-    ImageButton mDelNum = (ImageButton) findViewById(R.id.btnback);
-
-    Button mBtn1 = (Button) findViewById(R.id.btn1);
-    Button mBtn2 = (Button) findViewById(R.id.btn2);
-    Button mBtn3 = (Button) findViewById(R.id.btn3);
-    Button mBtn4 = (Button) findViewById(R.id.btn4);
-    Button mBtn5 = (Button) findViewById(R.id.btn5);
-    Button mBtn6 = (Button) findViewById(R.id.btn6);
-    Button mBtn7 = (Button) findViewById(R.id.btn7);
-    Button mBtn8 = (Button) findViewById(R.id.btn8);
-    Button mBtn9 = (Button) findViewById(R.id.btn9);
-    Button mBtn0 = (Button) findViewById(R.id.btn0);
-    findViewById(R.id.rotate).setOnClickListener(this);
-    //     mBtnhas = (Button) findViewById(R.id.btnhas);
-
-    mBtn1.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "1"));
-      }
-    });
-    mBtn2.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "2"));
-      }
-    });
-    mBtn3.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "3"));
-      }
-    });
-    mBtn4.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "4"));
-      }
-    });
-    mBtn5.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "5"));
-      }
-    });
-    mBtn6.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "6"));
-      }
-    });
-    mBtn7.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "7"));
-      }
-    });
-    mBtn8.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "8"));
-      }
-    });
-    mBtn9.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "9"));
-      }
-    });
-    mBtn0.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText(mEdCountryUp.getText().insert(mEdCountryUp.getText().length(), "0"));
-      }
-    });
-
-    mDelNum.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // Toast.makeText(getApplicationContext(),"click",Toast.LENGTH_SHORT).show();
-        if (!mEdCountryUp.getText().toString().isEmpty()) {
-          mEdCountryUp.setText(mEdCountryUp.getText()
-              .delete(mEdCountryUp.getText().length() - 1,
-                  mEdCountryUp.getText().length()));
-        }
-      }
-    });
-
-    mBtnBack.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mEdCountryUp.setText("");
-      }
-    });
-
-    mEdCountryUp.setOnTouchListener(new View.OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-
-        int inType = mEdCountryUp.getInputType();       // Backup the input type
-        mEdCountryUp.setInputType(InputType.TYPE_NULL); // Disable standard keyboard
-        mEdCountryUp.onTouchEvent(event);               // Call native handler
-        mEdCountryUp.setInputType(inType);              // Restore input type
-        return true; // Consume touch event
-      }
-    });
-  }
-
-  @Override
-  public void onClick(View v) {
-    String value = mEdCountryUp.getText().toString();
-    int GUI_Id = v.getId();
-    switch (GUI_Id) {
-      case R.id.btnpoint:
-        if (value.contains(".")) {
-          return;
-        } else {
-          value += ".";
-        }
-        mEdCountryUp.setText(value);
-        break;
-      case R.id.btndelete:
-        int length = mEdCountryUp.getText().length();
-        if (length > 0) {
-          mEdCountryUp.getText().delete(length - 1, length);
-        }
-        break;
-      case R.id.btncancel:
-        mEdCountryUp.setText("");
-        break;
-      case R.id.rotate:
-        String mUpperIsoValue = mCountryNameUp.getText().toString();
-        String mDownIsoValue = mCountryNameDown.getText().toString();
-        int iconUp = getDrawableId(mFlagCountryUp);
-        int iconDown = getDrawableId(mFlagCountryDown);
-        mFlagCountryDown.setImageResource(iconUp);
-        mFlagCountryDown.setTag(iconUp);
-        mFlagCountryUp.setImageResource(iconDown);
-        mFlagCountryUp.setTag(iconDown);
-        mCountryNameUp.setText(mDownIsoValue);
-        mCountryNameDown.setText(mUpperIsoValue);
-        isoUp = mCountryNameUp.getText().toString();
-        isoDown = mCountryNameDown.getText().toString();
-        DecimalFormat df = new DecimalFormat("#.##");
-        if (isNetworkAvailable()) {
-          try {
-            if (isoUp == null && isoDown == null) {
-              isoUp = mCountryNameUp.getText().toString();
-              isoDown = mCountryNameDown.getText().toString();
-            } else {
-              isoUp = mCountryNameUp.getText().toString();
-              isoDown = mCountryNameDown.getText().toString();
-            }
-            mEdCountryUp.setText(mEdCountryDown.getText().toString());
-            mValueCountryUp = mEdCountryUp.getText().toString();
-
-            if (!mValueCountryUp.isEmpty()) {
-              mEdCountryDown.setText("");
-              IsoUpRate = ratesObject.getDouble(isoUp);
-              IsoDownRate = ratesObject.getDouble(isoDown);
-              mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
-              Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
-              Double ans = ans1ConVert * IsoDownRate;
-              Double conDecimal = Double.valueOf(df.format(ans));
-              String finalAns = String.valueOf(conDecimal);
-              mEdCountryDown.setText(String.format("%.2f", ans));
-
-            } else {
-              mEdCountryDown.setText("");
-            }
-
-          } catch (JSONException e) {
-            e.printStackTrace();
-          }
-
-        } else {
-          Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
-              .show();
-        }
-
-        break;
-      default:
-        Button sender = (Button) v;
-        value += sender.getText();
-        mEdCountryUp.setText(value);
-    }
-
   }
 
   private int getDrawableId(ImageView iv) {
@@ -458,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   }
 
   private void loadCurrencyExchangeData() {
+    final PreferenUtil mPref = PreferenUtil.getInstant(getApplicationContext());
     AsyncHttpClient client = new AsyncHttpClient();
     client.get(API_URL, new AsyncHttpResponseHandler() {
       @Override
@@ -467,6 +315,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
           jsonObj = new JSONObject(decodedData);
           ratesObject = jsonObj.getJSONObject("rates");
+          String rateConverted = ratesObject.toString();
+          if (rateConverted != null && !rateConverted.isEmpty()){
+            mPref.saveRateObjectJson(rateConverted);
+          }
+ //         Rates rr = new Gson().fromJson(ratesObject.toString(),Rates.class);
+//          Double gg = rr.getARS();
         } catch (JSONException e) {
           e.printStackTrace();
         }
@@ -497,7 +351,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFlagCountryUp.setTag(flag);
         isoUp = mCountryNameUp.getText().toString();
         DecimalFormat df = new DecimalFormat("#.##");
-
         if (isNetworkAvailable()) {
           try {
             if (isoUp == null && isoDown == null) {
@@ -507,10 +360,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             mValueCountryUp =  mEdCountryUp.getText().toString();
             if (!mValueCountryUp.isEmpty()) {
-              if(ratesObject == null){
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-                return;
+              if(ratesObject == null) {
+                if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj()
+                    .isEmpty()) {
+                  ratesObject = new JSONObject(mPreference.getRateJsonObj());
+                } else {
+                  Snackbar snackbar = Snackbar
+                      .make(findViewById(android.R.id.content), "Loading rates, please wait...",
+                          Snackbar.LENGTH_SHORT);
+                  snackbar.show();
+                  return;
+                }
               }
               IsoUpRate = ratesObject.getDouble(isoUp);
               IsoDownRate = ratesObject.getDouble(isoDown);
@@ -518,7 +378,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
               Double ans = ans1ConVert * IsoDownRate;
               Double conDecimal = Double.valueOf(df.format(ans));
-              String finalAns = String.valueOf(conDecimal);
               mEdCountryDown.setText(String.format("%.2f", ans));
 
             } else {
@@ -528,9 +387,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           } catch (JSONException e) {
             e.printStackTrace();
           }
-        } else {
-          Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
-              .show();
+        }
+        else {
+            if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj().isEmpty()){
+              mEdCountryUp.setSelection(mEdCountryUp.getText().length());
+              try {
+                ratesObject = new JSONObject(mPreference.getRateJsonObj());
+                if (isoUp == null && isoDown == null) {
+                  isoUp = mCountryNameUp.getText().toString();
+                  isoDown = mCountryNameDown.getText().toString();
+                }
+                IsoUpRate = ratesObject.getDouble(isoUp);
+                IsoDownRate = ratesObject.getDouble(isoDown);
+                mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                Double ans = ans1ConVert * IsoDownRate;
+                Double conDecimal = Double.valueOf(df.format(ans));
+                String finalAns = String.valueOf(conDecimal);
+                mEdCountryDown.setText(String.format("%.2f", ans));
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+            }else {
+              Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
+                  .show();
+            }
+
+          }
         }
 
       } else if (requestCode == 3) {
@@ -551,12 +434,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
               isoDown = mCountryNameDown.getText().toString();
             }
 
-            mValueCountryUp =  mEdCountryUp.getText().toString();
+            mValueCountryUp = mEdCountryUp.getText().toString();
             if (!mValueCountryUp.isEmpty()) {
-              if(ratesObject == null){
-                Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), "Loading rates, please wait...", Snackbar.LENGTH_SHORT);
-                snackbar.show();
-                return;
+              if (ratesObject == null) {
+                if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj()
+                    .isEmpty()) {
+                  ratesObject = new JSONObject(mPreference.getRateJsonObj());
+                } else {
+                  Snackbar snackbar = Snackbar
+                      .make(findViewById(android.R.id.content), "Loading rates, please wait...",
+                          Snackbar.LENGTH_SHORT);
+                  snackbar.show();
+                  return;
+                }
               }
               IsoUpRate = ratesObject.getDouble(isoUp);
               IsoDownRate = ratesObject.getDouble(isoDown);
@@ -574,15 +464,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
           } catch (JSONException e) {
             e.printStackTrace();
           }
-        } else {
-          Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
-              .show();
+        }
+           else {
+            if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj().isEmpty()){
+              mEdCountryUp.setSelection(mEdCountryUp.getText().length());
+              try {
+                ratesObject = new JSONObject(mPreference.getRateJsonObj());
+                if (isoUp == null && isoDown == null) {
+                  isoUp = mCountryNameUp.getText().toString();
+                  isoDown = mCountryNameDown.getText().toString();
+                }
+                IsoUpRate = ratesObject.getDouble(isoUp);
+                IsoDownRate = ratesObject.getDouble(isoDown);
+                mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                Double ans = ans1ConVert * IsoDownRate;
+                Double conDecimal = Double.valueOf(df.format(ans));
+                mEdCountryDown.setText(String.format("%.2f", ans));
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+            }else {
+              Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
+                  .show();
+            }
         }
 
       }
     }
 
-  }
 
   @Override
   protected void onStart() {
@@ -711,4 +621,95 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
   }
 
+  @Override
+  public void onClick(View v) {
+    int GUI_Id = v.getId();
+    switch (GUI_Id) {
+
+      case R.id.rotate:
+        String mUpperIsoValue = mCountryNameUp.getText().toString();
+        String mDownIsoValue = mCountryNameDown.getText().toString();
+        int iconUp = getDrawableId(mFlagCountryUp);
+        int iconDown = getDrawableId(mFlagCountryDown);
+        mFlagCountryDown.setImageResource(iconUp);
+        mFlagCountryDown.setTag(iconUp);
+        mFlagCountryUp.setImageResource(iconDown);
+        mFlagCountryUp.setTag(iconDown);
+        mCountryNameUp.setText(mDownIsoValue);
+        mCountryNameDown.setText(mUpperIsoValue);
+        isoUp = mCountryNameUp.getText().toString();
+        isoDown = mCountryNameDown.getText().toString();
+        DecimalFormat df = new DecimalFormat("#.##");
+        if (isNetworkAvailable()) {
+          try {
+            if (isoUp == null && isoDown == null) {
+              isoUp = mCountryNameUp.getText().toString();
+              isoDown = mCountryNameDown.getText().toString();
+            } else {
+              isoUp = mCountryNameUp.getText().toString();
+              isoDown = mCountryNameDown.getText().toString();
+            }
+            mEdCountryUp.setText(mEdCountryDown.getText().toString());
+            mValueCountryUp = mEdCountryUp.getText().toString();
+
+            if (!mValueCountryUp.isEmpty()) {
+              mEdCountryDown.setText("");
+              IsoUpRate = ratesObject.getDouble(isoUp);
+              IsoDownRate = ratesObject.getDouble(isoDown);
+              mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+              Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+              Double ans = ans1ConVert * IsoDownRate;
+              Double conDecimal = Double.valueOf(df.format(ans));
+              String finalAns = String.valueOf(conDecimal);
+              mEdCountryDown.setText(String.format("%.2f", ans));
+
+            } else {
+              mEdCountryDown.setText("");
+            }
+
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+
+        } else {
+          if (mPreference.getRateJsonObj() != null && !mPreference.getRateJsonObj().isEmpty()){
+            mEdCountryUp.setSelection(mEdCountryUp.getText().length());
+            try {
+              ratesObject = new JSONObject(mPreference.getRateJsonObj());
+              if (isoUp == null && isoDown == null) {
+                isoUp = mCountryNameUp.getText().toString();
+                isoDown = mCountryNameDown.getText().toString();
+              } else {
+                isoUp = mCountryNameUp.getText().toString();
+                isoDown = mCountryNameDown.getText().toString();
+              }
+              mEdCountryUp.setText(mEdCountryDown.getText().toString());
+              mValueCountryUp = mEdCountryUp.getText().toString();
+
+              if (!mValueCountryUp.isEmpty()) {
+                mEdCountryDown.setText("");
+                IsoUpRate = ratesObject.getDouble(isoUp);
+                IsoDownRate = ratesObject.getDouble(isoDown);
+                mDoubValueCountryUp = Double.valueOf(mValueCountryUp);
+                Double ans1ConVert = mDoubValueCountryUp / IsoUpRate;
+                Double ans = ans1ConVert * IsoDownRate;
+                Double conDecimal = Double.valueOf(df.format(ans));
+                String finalAns = String.valueOf(conDecimal);
+                mEdCountryDown.setText(String.format("%.2f", ans));
+
+              } else {
+                mEdCountryDown.setText("");
+              }
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+          }else {
+            Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_LONG)
+                .show();
+          }
+        }
+
+        break;
+    }
+  }
 }

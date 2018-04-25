@@ -24,6 +24,7 @@ public class PreferenUtil {
   public static final String COUNTRYDOWNMAP = "countrydownmap";
   public static final String COUNTRYUPVALUE = "countryupvalue";
   public static final String COUNTRYDOWNVALUE = "countrydownvalue";
+  public static final String RATEJSONOBJ = "ratejsonobj";
 
   private static Context mContext;
   @SuppressLint("StaticFieldLeak")
@@ -143,6 +144,19 @@ public class PreferenUtil {
     byte[] decodedByte = Base64.decode(input, 0);
     return BitmapFactory
         .decodeByteArray(decodedByte, 0, decodedByte.length);
+  }
+
+  public void saveRateObjectJson(String jsonString) {
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+    sharedPreferencesEditor.putString(RATEJSONOBJ, jsonString);
+    sharedPreferencesEditor.apply();
+
+  }
+
+  public String getRateJsonObj() {
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    return sharedPreferences.getString(RATEJSONOBJ, "");
   }
 
 }
