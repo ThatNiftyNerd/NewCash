@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/news_headline"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
@@ -20,18 +20,18 @@
             android:textSize="20sp"
             android:layout_height="wrap_content"
             android:text="@string/CALCULATE"/>
-        <android.support.v7.widget.AppCompatImageView
+        <ImageView
             android:id="@+id/news_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/news_url"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/CALCULATE"/>
-        <android.support.v7.widget.AppCompatTextView
+        <TextView
             android:id="@+id/published_at"
             android:layout_width="match_parent"
             android:textColor="@color/item_black"
@@ -41,4 +41,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

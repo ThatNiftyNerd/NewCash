@@ -22,19 +22,19 @@
       android:layout_weight="1"
       android:id="@+id/theme_default">
 
-      <android.support.v7.widget.AppCompatImageView
+      <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:tint="@color/colorPrimary"
         android:src="@drawable/circle_shape"/>
-      <android.support.v7.widget.AppCompatTextView
+      <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
         android:text="1"
         >
-      </android.support.v7.widget.AppCompatTextView>
+      </TextView>
     </com.house603.cashew.feature.utils.CircleCardView>
     <com.house603.cashew.feature.utils.CircleCardView
       android:layout_width="0dp"
@@ -43,13 +43,13 @@
       android:id="@+id/theme_dark_blue"
       android:layout_marginLeft="@dimen/circle_left_margin"
       >
-      <android.support.v7.widget.AppCompatImageView
+      <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:tint="@color/colorPrimary"
         android:src="@drawable/circle_shape"/>
-      <android.support.v7.widget.AppCompatTextView
+      <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
@@ -64,13 +64,13 @@
       android:id="@+id/theme_deep_blue"
       android:layout_marginLeft="@dimen/circle_left_margin"
       >
-      <android.support.v7.widget.AppCompatImageView
+      <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:tint="@color/colorPrimary"
         android:src="@drawable/circle_shape"/>
-      <android.support.v7.widget.AppCompatTextView
+      <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_centerInParent="true"
